@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import Header from "@/components/layout/Header";
 import BottomNavigation from "@/components/layout/BottomNavigation";
@@ -8,49 +9,56 @@ import PageContainer from "@/components/layout/PageContainer";
 
 import { usePlayer } from "@/hooks/usePlayer";
 
-import { getProfile } from "@/services/profile";
+import {
+  getProfile,
+  Profile,
+} from "@/services/profile";
 
-export default function ProfilePage() {
+export default function PerfilPage() {
+  const router = useRouter();
 
-  const { playerId, playerName } =
-    usePlayer();
+  const { playerId, playerName } = usePlayer();
 
   const [profile, setProfile] =
-    useState<any>();
+    useState<Profile | null>(null);
 
   useEffect(() => {
-
     if (playerId) {
-
-      load();
-
+      loadProfile();
     }
-
   }, [playerId]);
 
-  async function load() {
-
-    const data =
-      await getProfile(playerId!);
-
+  async function loadProfile() {
+    const data = await getProfile(playerId!);
     setProfile(data);
+  }
 
+  function logout() {
+    if (
+      !confirm("Pretende terminar a sessão?")
+    ) {
+      return;
+    }
+
+    localStorage.removeItem("playerId");
+
+    router.push("/login");
   }
 
   if (!playerId) return null;
 
   if (!profile) {
-
     return (
       <>
         <Header playerName={playerName} />
+
         <PageContainer>
-          A carregar...
+          <p>A carregar...</p>
         </PageContainer>
+
         <BottomNavigation />
       </>
     );
-
   }
 
   return (
@@ -59,56 +67,88 @@ export default function ProfilePage() {
 
       <PageContainer>
 
-        <div className="bg-white rounded-2xl shadow-md p-8">
+        <h1 className="text-3xl font-bold mb-6">
+          👤 Perfil
+        </h1>
+
+        <div className="bg-white rounded-xl shadow p-6 mb-6">
 
           <div className="text-center">
 
-            <div className="text-6xl mb-4">
-
-              👤
-
-            </div>
-
-            <h1 className="text-3xl font-bold">
-
-              {profile.player.full_name}
-
-            </h1>
-
-          </div>
-
-          <div className="mt-8 space-y-5">
-
-            <Info
-              title="⭐ Pontos"
-              value={Number(
-                profile.player.total_points
-              ).toFixed(2)}
-            />
-
-            <Info
-              title="🏆 Ranking"
-              value={`${profile.position}º / ${profile.totalPlayers}`}
-            />
-
-            <Info
-              title="🎯 Apostas"
-              value={`${profile.bets} / ${profile.totalQuestions}`}
-            />
-
-            <Info
-              title="📈 Precisão Média"
-              value={`${profile.averageAccuracy.toFixed(1)} %`}
-            />
-
-            <Info
-              title="🏅 Melhor Resposta"
-              value={`${profile.bestAccuracy.toFixed(1)} %`}
-            />
+            <h2 className="text-2xl font-bold">
+              {profile.full_name}
+            </h2>
 
           </div>
 
         </div>
+
+        <div className="grid grid-cols-2 gap-4">
+
+          <div className="bg-white rounded-xl shadow p-5 text-center">
+
+            <div className="text-sm text-slate-500 mb-2">
+              🏆 Ranking
+            </div>
+
+            <div className="text-2xl font-bold">
+              {profile.position}º
+            </div>
+
+            <div className="text-sm text-slate-500">
+              de {profile.totalPlayers}
+            </div>
+
+          </div>
+
+          <div className="bg-white rounded-xl shadow p-5 text-center">
+
+            <div className="text-sm text-slate-500 mb-2">
+              ⭐ Pontos
+            </div>
+
+            <div className="text-2xl font-bold">
+              {profile.points.toFixed(2)}
+            </div>
+
+          </div>
+
+          <div className="bg-white rounded-xl shadow p-5 text-center">
+
+            <div className="text-sm text-slate-500 mb-2">
+              🎯 Apostas
+            </div>
+
+            <div className="text-2xl font-bold">
+              {profile.totalBets}
+            </div>
+
+            <div className="text-sm text-slate-500">
+              / {profile.totalQuestions}
+            </div>
+
+          </div>
+
+          <div className="bg-white rounded-xl shadow p-5 text-center">
+
+            <div className="text-sm text-slate-500 mb-2">
+              🎯 Precisão Média
+            </div>
+
+            <div className="text-2xl font-bold">
+              {profile.averageAccuracy.toFixed(2)}%
+            </div>
+
+          </div>
+
+        </div>
+
+        <button
+          onClick={logout}
+          className="mt-8 w-full rounded-xl bg-red-700 !text-white p-4 font-semibold shadow-md hover:bg-red-600 transition"
+        >
+          🚪 Terminar Sessão
+        </button>
 
       </PageContainer>
 
@@ -116,35 +156,4 @@ export default function ProfilePage() {
 
     </>
   );
-
-}
-
-function Info({
-  title,
-  value,
-}: {
-  title: string;
-  value: string;
-}) {
-
-  return (
-
-    <div className="flex justify-between border-b pb-3">
-
-      <span className="font-medium">
-
-        {title}
-
-      </span>
-
-      <span className="font-bold">
-
-        {value}
-
-      </span>
-
-    </div>
-
-  );
-
 }
