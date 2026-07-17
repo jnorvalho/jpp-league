@@ -14,6 +14,8 @@ import StatCard from "@/components/admin/StatCard";
 import { usePlayer } from "@/hooks/usePlayer";
 import { getAdminStats, AdminStats } from "@/services/admin";
 
+import { resetGame } from "@/services/admin";
+
 export default function AdminPage() {
   const { playerId, playerName } = usePlayer();
 
@@ -44,6 +46,38 @@ export default function AdminPage() {
   if (!playerId) {
     return null;
   }
+
+  async function handleReset() {
+
+  const first = confirm(
+    "⚠️ Isto vai eliminar TODAS as apostas, resultados e pontuações.\n\nContinuar?"
+  );
+
+  if (!first) return;
+
+  const second = confirm(
+    "Última confirmação!\n\nEsta ação NÃO pode ser anulada."
+  );
+
+  if (!second) return;
+
+  try {
+
+    await resetGame();
+
+    alert("Jogo reiniciado com sucesso!");
+
+    loadStats();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Erro ao reiniciar.");
+
+  }
+
+}
 
   return (
     <AdminGuard>
@@ -83,31 +117,37 @@ export default function AdminPage() {
             <div className="space-y-4">
               <Link
                 href="/admin/perguntas"
-                className="block rounded-xl bg-blue-900 text-white p-5 text-center font-semibold hover:bg-blue-800 transition"
+                className="block rounded-xl bg-blue-900 !text-white p-5 text-center font-semibold hover:bg-blue-800 transition" 
               >
                 📋 Gerir Perguntas
               </Link>
 
               <Link
                 href="/admin/resultados"
-                className="block rounded-xl bg-green-700 text-white p-5 text-center font-semibold hover:bg-green-600 transition"
+                className="block rounded-xl bg-blue-900 !text-white p-5 text-center font-semibold hover:bg-blue-800 transition" 
               >
                 🎯 Introduzir Resultados
               </Link>
 
               <Link
                 href="/admin/pontuacoes"
-                className="block rounded-xl bg-orange-600 text-white p-5 text-center font-semibold hover:bg-orange-500 transition"
+                className="block rounded-xl bg-blue-900 !text-white p-5 text-center font-semibold hover:bg-blue-800 transition" 
               >
                 🧮 Calcular Pontuações
               </Link>
 
               <Link
                 href="/admin/jogadores"
-                className="block rounded-xl bg-slate-800 text-white p-5 text-center font-semibold hover:bg-slate-700 transition"
-              >
+                className="block rounded-xl bg-blue-900 !text-white p-5 text-center font-semibold hover:bg-blue-800 transition"              >
                 👥 Jogadores
               </Link>
+
+              <button
+                onClick={handleReset}
+                className="w-full rounded-xl bg-red-700 !text-white p-5 font-semibold shadow-md hover:bg-red-600 transition"
+                >
+                🗑️ Reiniciar Jogo
+              </button>
             </div>
           </>
         )}

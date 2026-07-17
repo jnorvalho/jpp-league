@@ -102,3 +102,26 @@ export async function saveResult(
 
   if (error) throw error;
 }
+
+export async function resetGame() {
+  const { error: scoresError } = await supabase
+    .from("scores")
+    .delete()
+    .gt("id", 0);
+
+  if (scoresError) throw scoresError;
+
+  const { error: resultsError } = await supabase
+    .from("results")
+    .delete()
+    .gt("question_id", 0);
+
+  if (resultsError) throw resultsError;
+
+  const { error: betsError } = await supabase
+    .from("bets")
+    .delete()
+    .gt("id", 0);
+
+  if (betsError) throw betsError;
+}

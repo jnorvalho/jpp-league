@@ -95,7 +95,7 @@ export default function HomePage() {
 
         <Link
           href="/apostas"
-          className="block mt-8 rounded-2xl bg-blue-900 text-white text-center py-4 font-semibold hover:bg-blue-800"
+          className="block rounded-xl bg-blue-900 !text-white p-5 text-center font-semibold hover:bg-blue-800 transition"
         >
 
           Ir para as apostas →
