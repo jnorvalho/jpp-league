@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -9,6 +8,7 @@ import {
   Trophy,
   User,
   Menu,
+  Building2,
 } from "lucide-react";
 
 const items = [
@@ -36,6 +36,14 @@ const items = [
     href: "/mais",
     icon: Menu,
     label: "Mais",
+  },
+];
+
+const externalItems = [
+  {
+    href: "https://predio-do-jpp.vercel.app",
+    icon: Building2,
+    label: "Prédio",
   },
 ];
 
@@ -67,6 +75,28 @@ export default function BottomNavigation() {
 
               <span>{item.label}</span>
             </Link>
+          );
+        })}
+
+        {externalItems.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <a
+              key={item.href}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-xl py-2 text-xs text-[#c4c5b9] transition hover:text-[#f5d978]"
+              aria-label="Abrir Prédio do JPP"
+            >
+              <Icon
+                size={22}
+                strokeWidth={1.8}
+              />
+
+              <span>{item.label}</span>
+            </a>
           );
         })}
       </div>

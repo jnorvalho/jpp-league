@@ -58,7 +58,7 @@ export default function ComoJogarPage() {
 
           <Section title="Objetivo" icon="🎯">
             <p>
-              A JPP League é um jogo de previsões criado
+              O JPP Casino Royal é um jogo de previsões criado
               para tornar a viagem mais divertida e competitiva.
             </p>
 

@@ -30,7 +30,7 @@ export default function SobrePage() {
             />
 
             <div className="mt-4 jpp-eyebrow justify-center">
-              JPP League
+              JPP
             </div>
 
             <h1 className="text-3xl font-black tracking-wide text-[#e5bd4f]">
@@ -47,7 +47,7 @@ export default function SobrePage() {
           <div className="px-6">
             <div className="space-y-5 text-[0.92rem] leading-7 text-[#d4d5c7]">
               <p>
-                A <strong>JPP League</strong> nasceu para
+                O <strong>JPP Casino Royal</strong> nasceu para
                 tornar esta viagem ainda mais divertida,
                 competitiva e memorável.
               </p>
@@ -96,7 +96,7 @@ export default function SobrePage() {
             <p className="mt-5 text-sm leading-7 text-[#d4d5c7]">
               Quem terminar em
               <strong className="text-[#e5bd4f]">
-                {" "}1.º lugar da JPP League
+                {" "}1.º lugar do JPP Casino Royal
               </strong>
               {" "}terá o privilégio de escolher
               <strong className="text-[#e5bd4f]">

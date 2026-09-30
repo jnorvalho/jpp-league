@@ -86,7 +86,7 @@ export default function AdminPage() {
           </h1>
 
           <p className="jpp-page-subtitle">
-            Gestão da competição JPP League.
+            Gestão da competição JPP Casino Royal.
           </p>
         </div>
 

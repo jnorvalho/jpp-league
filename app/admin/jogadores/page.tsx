@@ -86,7 +86,7 @@ export default function PlayersPage() {
           </h1>
 
           <p className="jpp-page-subtitle">
-            Gere os participantes da JPP League.
+            Gere os participantes do JPP Casino Royal.
           </p>
         </div>
 

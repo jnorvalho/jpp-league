@@ -86,7 +86,7 @@ export default function PerfilPage() {
           </h1>
 
           <p className="jpp-page-subtitle">
-            A tua ficha na JPP League.
+            A tua ficha no JPP Casino Royal.
           </p>
         </div>
 
@@ -112,7 +112,7 @@ export default function PerfilPage() {
 
           <div className="flex items-center justify-center gap-2">
             <span className="jpp-badge">
-              JPP League
+              JPP Casino Royal
             </span>
 
           </div>

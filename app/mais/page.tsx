@@ -64,7 +64,7 @@ export default function MaisPage() {
           </h1>
 
           <p className="jpp-page-subtitle">
-            Tudo o que precisas para dominar a JPP League.
+            Tudo o que precisas para dominar o JPP Casino Royal.
           </p>
         </div>
 
@@ -80,7 +80,7 @@ export default function MaisPage() {
             href="/sobre"
             icon="ℹ️"
             title="Sobre"
-            description="Informação sobre a JPP League."
+            description="Informação sobre o JPP Casino Royal."
           />
 
           <MenuItem

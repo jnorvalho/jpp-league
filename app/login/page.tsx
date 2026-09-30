@@ -112,7 +112,7 @@ export default function LoginPage() {
             disabled={!selectedPlayer}
             className="jpp-action-button mt-5"
           >
-            Entrar na JPP League
+            Entrar no JPP Casino Royal
           </button>
 
           <p className="jpp-login-footer">

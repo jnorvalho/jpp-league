@@ -21,7 +21,7 @@ export default function HomePage() {
         {/* HEADER */}
         <div className="jpp-page-header">
           <div className="jpp-eyebrow">
-            JPP League
+            JPP Casino Royal
           </div>
 
           <h1 className="jpp-page-title">
@@ -47,9 +47,9 @@ export default function HomePage() {
             </div>
 
             <h2 className="mt-2 text-xl font-black leading-tight text-[#f5f0d8] sm:text-2xl">
-              Quem ganhar a JPP League
+              Quem ganhar o JPP Casino Royal
               <br />
-              escolhe a música do casamento!
+              escolhe a música da entrada do casamento!
             </h2>
 
             <div className="mx-auto mt-4 h-px w-20 bg-[#887437]" />
