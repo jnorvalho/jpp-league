@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
@@ -27,62 +28,99 @@ export default function LoginPage() {
         .select("*")
         .order("full_name");
 
-      if (data) setPlayers(data);
+      if (data) {
+        setPlayers(data);
+      }
     }
 
     loadPlayers();
   }, []);
 
   function login() {
-  if (!selectedPlayer) return;
+    if (!selectedPlayer) return;
 
-  const player = players.find(
-    (p) => p.id.toString() === selectedPlayer
-  );
+    const player = players.find(
+      (p) => p.id.toString() === selectedPlayer
+    );
 
-  localStorage.setItem("playerId", selectedPlayer);
-  localStorage.setItem("playerName", player?.full_name ?? "");
+    localStorage.setItem("playerId", selectedPlayer);
+    localStorage.setItem(
+      "playerName",
+      player?.full_name ?? ""
+    );
 
-  router.push("/home");
-}
+    router.push("/home");
+  }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
-      <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+    <main className="jpp-login-shell">
+      <div className="jpp-frame w-full max-w-[456px]">
+        <div className="jpp-login-card">
+          
+          <Image
+            src="/jpp-logo.png"
+            alt="JPP Casino Royal"
+            width={180}
+            height={180}
+            priority
+            className="jpp-login-logo"
+          />
 
-        <h1 className="text-4xl font-bold text-blue-900 text-center">
-          JPP League
-        </h1>
+          <div className="jpp-eyebrow justify-center">
+            JPP League
+          </div>
 
-        <p className="text-center text-slate-500 mt-2 mb-8">
-          The Last Dance
-        </p>
+          <h1 className="jpp-login-title">
+            Casino Royal
+          </h1>
 
-        <label className="font-medium">
-          Escolhe o teu nome
-        </label>
+          <div className="jpp-divider" />
 
-        <select
-          className="w-full mt-2 mb-6 border rounded-xl p-3"
-          value={selectedPlayer}
-          onChange={(e) => setSelectedPlayer(e.target.value)}
-        >
-          <option value="">Selecionar...</option>
+          <div className="mt-6">
+            <label
+              htmlFor="player"
+              className="jpp-login-label"
+            >
+              Quem está a jogar?
+            </label>
 
-          {players.map((player) => (
-            <option key={player.id} value={player.id}>
-              {player.full_name}
-            </option>
-          ))}
-        </select>
+            <select
+              id="player"
+              className="jpp-select"
+              value={selectedPlayer}
+              onChange={(e) =>
+                setSelectedPlayer(e.target.value)
+              }
+            >
+              <option value="">
+                Selecionar jogador...
+              </option>
 
-        <button
-          onClick={login}
-          className="w-full bg-blue-900 text-white rounded-xl py-3 font-semibold hover:bg-blue-800"
-        >
-          Entrar
-        </button>
+              {players.map((player) => (
+                <option
+                  key={player.id}
+                  value={player.id}
+                >
+                  {player.full_name}
+                </option>
+              ))}
+            </select>
+          </div>
 
+          <button
+            onClick={login}
+            disabled={!selectedPlayer}
+            className="jpp-action-button mt-5"
+          >
+            Entrar na JPP League
+          </button>
+
+          <p className="jpp-login-footer">
+            Escolhe o teu nome para entrares na competição.
+            <br />
+            Boa sorte. Vais precisar dela.
+          </p>
+        </div>
       </div>
     </main>
   );

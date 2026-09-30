@@ -1,3 +1,4 @@
+
 import { ReactNode } from "react";
 import { Question } from "@/types/question";
 
@@ -11,32 +12,27 @@ export default function BetCard({
   children,
 }: Props) {
   return (
-    <div className="bg-white rounded-2xl shadow-md p-5 border border-slate-200">
-
-      {/* Dificuldade */}
-
-      <div className="flex justify-between items-center mb-4">
-
-        <div className="text-yellow-500 text-lg">
+    <div className="jpp-card overflow-hidden p-4 sm:p-5">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <div
+          className="text-lg tracking-wide text-[#e5bd4f]"
+          aria-label={`Dificuldade: ${question.difficulty} estrelas`}
+        >
           {"⭐".repeat(question.difficulty)}
         </div>
 
-        <div className="text-sm font-semibold text-blue-900">
+        <div className="shrink-0 rounded-full border border-[#887437] bg-[#102d20] px-3 py-1.5 text-sm font-bold text-[#f5d978]">
           🏆 {question.points} pts
         </div>
-
       </div>
 
-      {/* Pergunta */}
-
-      <h2 className="text-lg font-semibold text-slate-800 leading-7 mb-5">
+      <h2 className="mb-5 text-lg font-semibold leading-7 text-[#f5f0d8] sm:text-xl">
         {question.question}
       </h2>
 
-      {/* Input */}
-
-      {children}
-
+      <div className="border-t border-[#887437]/50 pt-4">
+        {children}
+      </div>
     </div>
   );
 }

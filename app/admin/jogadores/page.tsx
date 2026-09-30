@@ -19,7 +19,6 @@ import {
 } from "@/services/adminPlayers";
 
 export default function PlayersPage() {
-
   const { playerId, playerName } = usePlayer();
 
   const [players, setPlayers] = useState<AdminPlayer[]>([]);
@@ -36,7 +35,6 @@ export default function PlayersPage() {
   if (!playerId) return null;
 
   async function addPlayer() {
-
     if (!newName.trim()) return;
 
     await createPlayer(newName);
@@ -47,7 +45,6 @@ export default function PlayersPage() {
   }
 
   async function editPlayer(player: AdminPlayer) {
-
     const name = prompt(
       "Novo nome:",
       player.full_name
@@ -61,13 +58,13 @@ export default function PlayersPage() {
   }
 
   async function removePlayer(player: AdminPlayer) {
-
     if (
       !confirm(
         `Eliminar ${player.full_name}?`
       )
-    )
+    ) {
       return;
+    }
 
     await deletePlayer(player.id);
 
@@ -79,17 +76,27 @@ export default function PlayersPage() {
       <Header playerName={playerName} />
 
       <PageContainer>
+        <div className="jpp-page-header">
+          <div className="jpp-eyebrow">
+            Administração
+          </div>
 
-        <h1 className="text-3xl font-bold mb-6">
+          <h1 className="jpp-page-title">
+            👥 Jogadores
+          </h1>
 
-          👥 Jogadores
+          <p className="jpp-page-subtitle">
+            Gere os participantes da JPP League.
+          </p>
+        </div>
 
-        </h1>
-
-        <div className="bg-white rounded-xl shadow p-5 mb-8">
+        <div className="jpp-card-premium p-5">
+          <div className="jpp-eyebrow">
+            Novo jogador
+          </div>
 
           <input
-            className="w-full border rounded-xl p-3 mb-4"
+            className="jpp-input"
             placeholder="Nome completo"
             value={newName}
             onChange={(e) =>
@@ -99,32 +106,42 @@ export default function PlayersPage() {
 
           <button
             onClick={addPlayer}
-            className="w-full bg-blue-900 text-white rounded-xl py-3 font-semibold"
+            disabled={!newName.trim()}
+            className="jpp-action-button mt-4"
           >
-            Adicionar Jogador
+            ＋ Adicionar Jogador
           </button>
-
         </div>
 
-        <div className="space-y-4">
+        <div className="mt-6">
+          <div className="mb-3 flex items-center justify-between">
+            <span className="jpp-eyebrow mb-0">
+              Participantes
+            </span>
 
-          {players.map((player) => (
+            <span className="jpp-badge">
+              {players.length} jogadores
+            </span>
+          </div>
 
-            <PlayerRow
-              key={player.id}
-              player={player}
-              onEdit={() => editPlayer(player)}
-              onDelete={() => removePlayer(player)}
-            />
-
-          ))}
-
+          <div className="space-y-3">
+            {players.map((player) => (
+              <PlayerRow
+                key={player.id}
+                player={player}
+                onEdit={() =>
+                  editPlayer(player)
+                }
+                onDelete={() =>
+                  removePlayer(player)
+                }
+              />
+            ))}
+          </div>
         </div>
-
       </PageContainer>
 
       <BottomNavigation />
-
     </>
   );
 }

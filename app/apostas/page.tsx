@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -38,9 +39,20 @@ export default function BetsPage() {
       <Header playerName={playerName} />
 
       <PageContainer>
-        <h1 className="text-3xl font-bold mb-6">
-          Apostas
-        </h1>
+        <div className="mb-7">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#c5a94c]">
+            As tuas escolhas
+          </p>
+
+          <h1 className="jpp-title text-3xl sm:text-4xl">
+            🎰 Apostas
+          </h1>
+
+          <p className="mt-2 text-sm leading-relaxed text-[#b8b9a9]">
+            Faz as tuas previsões e acompanha a tua sorte.
+            As respostas ficam guardadas automaticamente.
+          </p>
+        </div>
 
         <DayTabs
           value={day}
@@ -48,19 +60,30 @@ export default function BetsPage() {
         />
 
         <div className="space-y-4">
-          {questions.map((q) => (
-            <BetCard
-              key={q.id}
-              question={q}
-            >
-              <BetInput
-                playerId={playerId}
-                questionId={q.id}
-                type={q.type}
-                isOpen={q.is_open}
-              />
-            </BetCard>
-          ))}
+          {questions.length === 0 ? (
+            <div className="jpp-card p-6 text-center">
+              <p className="text-lg font-semibold text-[#f5f0d8]">
+                Ainda não há perguntas
+              </p>
+              <p className="mt-2 text-sm text-[#b8b9a9]">
+                Não existem perguntas disponíveis para este dia.
+              </p>
+            </div>
+          ) : (
+            questions.map((q) => (
+              <BetCard
+                key={q.id}
+                question={q}
+              >
+                <BetInput
+                  playerId={playerId}
+                  questionId={q.id}
+                  type={q.type}
+                  isOpen={q.is_open}
+                />
+              </BetCard>
+            ))
+          )}
         </div>
       </PageContainer>
 

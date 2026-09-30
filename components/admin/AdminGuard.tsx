@@ -36,36 +36,55 @@ export default function AdminGuard({
 
   if (!authenticated) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
-        <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl">
+      <main className="jpp-login-shell">
+        <div className="jpp-login-card">
 
-          <h1 className="text-3xl font-bold text-center text-blue-900">
-            🔒 Área Administrativa
+          <div className="jpp-login-logo">
+            🔒
+          </div>
+
+          <div className="jpp-eyebrow justify-center">
+            JPP Casino Royal
+          </div>
+
+          <h1 className="jpp-login-title">
+            Área Administrativa
           </h1>
 
-          <p className="text-center text-slate-500 mt-2 mb-6">
-            Introduz a password para continuar
+          <p className="jpp-login-subtitle">
+            Introduz a password para continuar.
           </p>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-            className="w-full rounded-xl border p-3 mb-4"
-          />
+          <div className="mt-7 text-left">
+            <label className="jpp-login-label">
+              Password
+            </label>
+
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleLogin();
+                }
+              }}
+              className="jpp-input"
+            />
+          </div>
 
           {error && (
-            <p className="text-red-600 text-sm mb-4">
+            <div className="mt-4 rounded-xl border border-[#8f3030] bg-[#3a1618] px-4 py-3 text-sm text-[#f2a6a6]">
               {error}
-            </p>
+            </div>
           )}
 
           <button
             onClick={handleLogin}
-            className="w-full rounded-xl bg-blue-900 py-3 text-white font-semibold hover:bg-blue-800"
+            className="jpp-button mt-6 w-full"
           >
             Entrar
           </button>

@@ -1,3 +1,4 @@
+
 "use client";
 
 type Props = {
@@ -12,34 +13,34 @@ export default function YesNoInput({
   disabled = false,
 }: Props) {
   return (
-    <div className="flex gap-3">
-
+    <div className="grid grid-cols-2 gap-3">
       <button
         type="button"
         disabled={disabled}
         onClick={() => onChange("Sim")}
-        className={`flex-1 rounded-xl border p-3 font-medium transition disabled:opacity-50 disabled:cursor-not-allowed ${
+        aria-pressed={value === "Sim"}
+        className={`rounded-xl border p-3 font-bold transition disabled:cursor-not-allowed disabled:opacity-50 ${
           value === "Sim"
-            ? "bg-green-600 text-white border-green-600"
-            : "bg-white hover:bg-slate-100"
+            ? "border-[#f5d978] bg-gradient-to-b from-[#f5d978] to-[#d6a92f] !text-[#092016] shadow-md"
+            : "border-[#887437] bg-[#061f17] !text-[#f5f0d8] hover:bg-[#123526]"
         }`}
       >
-        Sim
+        {value === "Sim" ? "✓ Sim" : "Sim"}
       </button>
 
       <button
         type="button"
         disabled={disabled}
         onClick={() => onChange("Não")}
-        className={`flex-1 rounded-xl border p-3 font-medium transition disabled:opacity-50 disabled:cursor-not-allowed ${
+        aria-pressed={value === "Não"}
+        className={`rounded-xl border p-3 font-bold transition disabled:cursor-not-allowed disabled:opacity-50 ${
           value === "Não"
-            ? "bg-red-600 text-white border-red-600"
-            : "bg-white hover:bg-slate-100"
+            ? "border-[#f5d978] bg-gradient-to-b from-[#f5d978] to-[#d6a92f] !text-[#092016] shadow-md"
+            : "border-[#887437] bg-[#061f17] !text-[#f5f0d8] hover:bg-[#123526]"
         }`}
       >
-        Não
+        {value === "Não" ? "✓ Não" : "Não"}
       </button>
-
     </div>
   );
 }

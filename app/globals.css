@@ -1,34 +1,739 @@
+
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #031b14;
+  --foreground: #f5f0d8;
 
-  --primary: #1e3a8a;
-  --secondary: #f59e0b;
+  --primary: #e5bd4f;
+  --primary-dark: #bd922c;
 
-  --card: #ffffff;
-  --border: #e2e8f0;
+  --secondary: #c9222b;
+
+  --card: #08251c;
+  --card-hover: #0c3024;
+
+  --border: #887437;
+  --border-light: #c5a94c;
+
+  --muted: #b8b9a9;
+  --danger: #c9222b;
 }
 
 * {
   box-sizing: border-box;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
+html {
+  min-height: 100%;
   background: var(--background);
-  color: var(--foreground);
-  font-family: sans-serif;
+  color-scheme: dark;
 }
 
 body {
+  margin: 0;
+  padding: 0;
   min-height: 100vh;
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      #123526 0%,
+      #031b14 55%,
+      #02140f 100%
+    );
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--primary);
+  color: #061810;
+}
+
+/* Cartões */
+
+.jpp-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+}
+
+.jpp-card-inner {
+  background: #061f17;
+  border: 1px solid rgba(197, 169, 76, 0.35);
+  border-radius: 12px;
+}
+
+/* Botões */
+
+.jpp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  padding: 13px 24px;
+  background: linear-gradient(
+    180deg,
+    #f5d978 0%,
+    #d6a92f 100%
+  );
+  color: #092016 !important;
+  font-weight: 700;
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease;
+}
+
+.jpp-button:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.jpp-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+}
+
+.jpp-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 12px 22px;
+  background: transparent;
+  color: var(--foreground) !important;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.jpp-button-secondary:hover {
+  background: var(--card-hover);
+}
+
+.jpp-button-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e45b5b;
+  border-radius: 999px;
+  padding: 13px 24px;
+  background: #a91e27;
+  color: #fff !important;
+  font-weight: 700;
+}
+
+/* Formulários */
+
+.jpp-input,
+.jpp-select,
+.jpp-textarea {
+  width: 100%;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #061f17;
+  color: var(--foreground);
+  outline: none;
+}
+
+.jpp-input:focus,
+.jpp-select:focus,
+.jpp-textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(229, 189, 79, 0.2);
+}
+
+.jpp-input::placeholder,
+.jpp-textarea::placeholder {
+  color: #92998e;
+}
+
+/* Tipografia */
+
+.jpp-title {
+  color: var(--primary);
+  font-weight: 800;
+  letter-spacing: 0.025em;
+}
+
+.jpp-muted {
+  color: var(--muted);
+}
+
+/* Moldura decorativa */
+
+.jpp-frame {
+  position: relative;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+}
+
+.jpp-frame::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border: 1px solid rgba(197, 169, 76, 0.35);
+  border-radius: 16px;
+  pointer-events: none;
+}
+
+/* Barra de navegação */
+
+.jpp-bottom-nav {
+  background: rgba(3, 27, 20, 0.97);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+
+/* Compatibilidade visual com componentes antigos */
+
+.bg-white {
+  background-color: var(--card) !important;
+}
+
+.text-slate-900,
+.text-slate-800,
+.text-slate-700 {
+  color: var(--foreground) !important;
+}
+
+.text-slate-600,
+.text-slate-500,
+.text-gray-500 {
+  color: var(--muted) !important;
+}
+
+.border-slate-200,
+.border-slate-300 {
+  border-color: var(--border) !important;
+}
+
+/* Espaço inferior para a navegação fixa */
+
+main {
+  color: var(--foreground);
+}
+
+/* Scrollbar */
+
+* {
+  scrollbar-color: #887437 #031b14;
+  scrollbar-width: thin;
+}
+
+@media (max-width: 640px) {
+  .jpp-card {
+    border-radius: 13px;
+  }
+}
+
+/* =========================================================
+   JPP CASINO ROYAL — UI SYSTEM
+   ========================================================= */
+
+.jpp-page-header {
+  margin-bottom: 24px;
+}
+
+.jpp-page-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--primary);
+  font-size: 1.9rem;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.jpp-page-subtitle {
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Pequena etiqueta dourada */
+
+.jpp-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  color: var(--primary);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Cards */
+
+.jpp-card-premium {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(12, 48, 36, 0.98),
+      rgba(5, 29, 21, 0.98)
+    );
+  border: 1px solid rgba(197, 169, 76, 0.65);
+  border-radius: 18px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+.jpp-card-premium::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18px;
+  right: 18px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(229, 189, 79, 0.7),
+    transparent
+  );
+}
+
+.jpp-card-premium:hover {
+  border-color: rgba(229, 189, 79, 0.9);
+}
+
+/* Cards de estatísticas */
+
+.jpp-stat-card {
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  background:
+    linear-gradient(
+      145deg,
+      #0a2b20 0%,
+      #061f17 100%
+    );
+  border: 1px solid rgba(197, 169, 76, 0.48);
+  border-radius: 16px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
+.jpp-stat-card::after {
+  content: "";
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  right: -35px;
+  top: -35px;
+  border-radius: 50%;
+  background: rgba(229, 189, 79, 0.05);
+}
+
+.jpp-stat-label {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.jpp-stat-value {
+  margin-top: 6px;
+  color: var(--primary);
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 800;
+}
+
+/* Menus */
+
+.jpp-menu-item {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  padding: 18px;
+  background: linear-gradient(
+    145deg,
+    #0a2b20,
+    #061f17
+  );
+  border: 1px solid rgba(197, 169, 76, 0.42);
+  border-radius: 16px;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.jpp-menu-item:hover {
+  transform: translateY(-1px);
+  border-color: var(--border-light);
+  background: var(--card-hover);
+}
+
+.jpp-menu-item-title {
+  color: var(--foreground);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.jpp-menu-item-description {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.jpp-menu-arrow {
+  color: var(--primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+/* Secções */
+
+.jpp-section {
+  padding: 20px;
+  background: linear-gradient(
+    145deg,
+    #0a2b20,
+    #061f17
+  );
+  border: 1px solid rgba(197, 169, 76, 0.45);
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
+}
+
+.jpp-section-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 14px;
+  color: var(--primary);
+  font-size: 1.08rem;
+  font-weight: 800;
+}
+
+.jpp-section-content {
+  color: #d4d5c7;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.jpp-section-content strong {
+  color: var(--foreground);
+}
+
+/* Tabelas */
+
+.jpp-table {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(197, 169, 76, 0.38);
+  border-radius: 12px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #061f17;
+}
+
+.jpp-table th {
+  padding: 12px 14px;
+  background: rgba(229, 189, 79, 0.08);
+  color: var(--primary);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.jpp-table td {
+  padding: 12px 14px;
+  color: #d4d5c7;
+  border-top: 1px solid rgba(197, 169, 76, 0.18);
+}
+
+.jpp-table tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Badges */
+
+.jpp-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 9px;
+  border: 1px solid rgba(197, 169, 76, 0.45);
+  border-radius: 999px;
+  background: rgba(229, 189, 79, 0.08);
+  color: var(--primary);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.jpp-badge-success {
+  border-color: rgba(83, 180, 116, 0.45);
+  background: rgba(83, 180, 116, 0.1);
+  color: #8ed3a2;
+}
+
+.jpp-badge-danger {
+  border-color: rgba(201, 34, 43, 0.55);
+  background: rgba(201, 34, 43, 0.12);
+  color: #ff8c91;
+}
+
+/* Separador */
+
+.jpp-divider {
+  height: 1px;
+  margin: 18px 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(197, 169, 76, 0.35),
+    transparent
+  );
+}
+
+/* Login */
+
+.jpp-login-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.jpp-login-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 28px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(229, 189, 79, 0.08),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      #0a2b20,
+      #061f17
+    );
+  border: 1px solid rgba(197, 169, 76, 0.65);
+  border-radius: 22px;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+.jpp-login-logo {
+  display: block;
+  width: 125px;
+  height: auto;
+  margin: 0 auto 20px;
+}
+
+.jpp-login-title {
+  color: var(--primary);
+  font-size: 2.15rem;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.025em;
+  text-align: center;
+}
+
+.jpp-login-subtitle {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.jpp-login-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--foreground);
+  font-size: 0.83rem;
+  font-weight: 700;
+}
+
+.jpp-login-footer {
+  margin-top: 20px;
+  color: #858c83;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Admin */
+
+.jpp-admin-warning {
+  padding: 15px 16px;
+  border: 1px solid rgba(201, 34, 43, 0.5);
+  border-radius: 14px;
+  background: rgba(201, 34, 43, 0.09);
+  color: #ffb1b4;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+/* Botão de ação principal grande */
+
+.jpp-action-button {
+  display: flex;
+  width: 100%;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid var(--border-light);
+  border-radius: 15px;
+  padding: 15px 18px;
+  background: linear-gradient(
+    180deg,
+    #f5d978,
+    #d6a92f
+  );
+  color: #092016 !important;
+  font-weight: 800;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease;
+}
+
+.jpp-action-button:hover {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+}
+
+.jpp-action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mobile */
+
+@media (max-width: 640px) {
+  .jpp-login-shell {
+    padding: 16px;
+  }
+
+  .jpp-login-card {
+    padding: 24px 20px;
+    border-radius: 19px;
+  }
+
+  .jpp-page-title {
+    font-size: 1.65rem;
+  }
+
+  .jpp-section {
+    padding: 17px;
+    border-radius: 15px;
+  }
+
+  .jpp-stat-card {
+    padding: 17px;
+  }
+
+  .jpp-stat-value {
+    font-size: 1.75rem;
+  }
+}
+
+/* =========================================================
+   JPP - OVERRIDES ADMIN
+   Remover cores azuis do tema antigo
+   ========================================================= */
+
+.text-blue-900,
+.text-blue-800,
+.text-blue-700,
+.text-blue-600,
+.text-blue-500,
+.text-blue-400,
+.text-blue-300 {
+  color: var(--primary) !important;
+}
+
+.bg-blue-900,
+.bg-blue-800,
+.bg-blue-700,
+.bg-blue-600,
+.bg-blue-500,
+.bg-blue-400,
+.bg-blue-300 {
+  background-color: var(--primary-dark) !important;
+}
+
+.border-blue-900,
+.border-blue-800,
+.border-blue-700,
+.border-blue-600,
+.border-blue-500,
+.border-blue-400,
+.border-blue-300 {
+  border-color: var(--border-light) !important;
+}
+
+/* =========================================================
+   JPP - BOTÕES DE AÇÃO
+   ========================================================= */
+
+.bg-blue-600,
+.bg-blue-700 {
+  background: linear-gradient(
+    180deg,
+    #f5d978 0%,
+    #d6a92f 100%
+  ) !important;
+
+  color: #092016 !important;
+}
+
+.bg-blue-600:hover,
+.bg-blue-700:hover {
+  filter: brightness(1.08);
+}
+
+.hover\:bg-blue-700:hover,
+.hover\:bg-blue-800:hover {
+  background: linear-gradient(
+    180deg,
+    #f5d978 0%,
+    #d6a92f 100%
+  ) !important;
+
+  color: #092016 !important;
 }

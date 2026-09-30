@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
@@ -7,8 +8,9 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "JPP League",
-  description: "The Last Dance",
+  title: "JPP Casino Royal",
+  description:
+    "JPP Casino Royal — The Last Dance. Aqui é a sério: aposta-se células hepáticas.",
 };
 
 export default function RootLayout({

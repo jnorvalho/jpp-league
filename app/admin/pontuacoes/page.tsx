@@ -13,58 +13,79 @@ import { usePlayer } from "@/hooks/usePlayer";
 import { calculateScores } from "@/services/scoring";
 
 export default function PontuacoesAdminPage() {
-
   const { playerId, playerName } = usePlayer();
 
   const [loading, setLoading] = useState(false);
 
   async function calculate() {
-
     setLoading(true);
 
     try {
-
       await calculateScores();
 
-      alert("Pontuações calculadas com sucesso!");
-
+      alert(
+        "Pontuações calculadas com sucesso!"
+      );
     } catch (error) {
-
       console.error(error);
 
-      alert("Erro ao calcular pontuações.");
-
+      alert(
+        "Erro ao calcular pontuações."
+      );
     }
 
     setLoading(false);
-
   }
 
   if (!playerId) return null;
 
   return (
-    <>
+    <AdminGuard>
       <Header playerName={playerName} />
 
       <PageContainer>
+        <div className="jpp-page-header">
+          <div className="jpp-eyebrow">
+            Administração
+          </div>
 
-        <h1 className="text-3xl font-bold mb-8">
-          🧮 Calcular Pontuações
-        </h1>
+          <h1 className="jpp-page-title">
+            🧮 Pontuações
+          </h1>
 
-        <button
-          onClick={calculate}
-          disabled={loading}
-          className="w-full rounded-xl bg-blue-900 py-4 text-white text-lg font-semibold hover:bg-blue-800 disabled:opacity-50"
-        >
-          {loading
-            ? "A calcular..."
-            : "Calcular Pontuações"}
-        </button>
+          <p className="jpp-page-subtitle">
+            Calcula as pontuações com base nos
+            resultados oficiais introduzidos.
+          </p>
+        </div>
 
+        <div className="jpp-card-premium p-6 text-center">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-[#c5a94c] bg-[#061f17] text-3xl">
+            🧮
+          </div>
+
+          <h2 className="mt-5 text-lg font-extrabold text-[#f5f0d8]">
+            Calcular pontuações
+          </h2>
+
+          <p className="mt-2 text-sm leading-6 text-[#b8b9a9]">
+            O sistema irá processar as apostas e
+            calcular os pontos de todos os jogadores.
+          </p>
+
+          <button
+            onClick={calculate}
+            disabled={loading}
+            className="jpp-action-button mt-6"
+          >
+            {loading
+              ? "⏳ A calcular..."
+              : "🧮 Calcular Pontuações"}
+          </button>
+        </div>
       </PageContainer>
 
       <BottomNavigation />
-    </>
+    </AdminGuard>
   );
 }

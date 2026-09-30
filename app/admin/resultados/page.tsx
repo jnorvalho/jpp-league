@@ -37,39 +37,69 @@ export default function ResultadosAdminPage() {
     questionId: number,
     answer: string
   ) {
-    await saveResult(questionId, answer);
+    await saveResult(
+      questionId,
+      answer
+    );
+
     await load();
   }
 
   if (!playerId) return null;
 
+  const completed = questions.filter(
+    (question) =>
+      question.result !== null &&
+      question.result !== undefined &&
+      question.result !== ""
+  ).length;
+
   return (
-    <>
+    <AdminGuard>
       <Header playerName={playerName} />
 
       <PageContainer>
+        <div className="jpp-page-header">
+          <div className="jpp-eyebrow">
+            Administração
+          </div>
 
-        <h1 className="text-3xl font-bold mb-6">
-          🎯 Resultados
-        </h1>
+          <h1 className="jpp-page-title">
+            🎯 Resultados
+          </h1>
+
+          <p className="jpp-page-subtitle">
+            Introduz os resultados oficiais das perguntas.
+          </p>
+        </div>
+
+        <div className="mb-5 flex items-center justify-between">
+          <span className="jpp-badge">
+            {questions.length} perguntas
+          </span>
+
+          <span className="jpp-badge jpp-badge-success">
+            {completed} preenchidos
+          </span>
+        </div>
 
         <div className="space-y-4">
-
           {questions.map((question) => (
             <ResultCard
               key={question.id}
               question={question}
               onSave={(answer) =>
-                save(question.id, answer)
+                save(
+                  question.id,
+                  answer
+                )
               }
             />
           ))}
-
         </div>
-
       </PageContainer>
 
       <BottomNavigation />
-    </>
+    </AdminGuard>
   );
 }

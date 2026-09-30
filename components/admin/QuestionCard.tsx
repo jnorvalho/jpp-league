@@ -12,27 +12,29 @@ export default function QuestionCard({
   onToggle,
 }: Props) {
   return (
-    <div className="rounded-xl border bg-white p-5 shadow-sm">
+    <div className="jpp-card-premium p-5">
 
-      <div className="flex justify-between items-center">
+      <div className="flex items-start justify-between gap-4">
 
-        <div>
+        <div className="min-w-0">
 
           <span
-            className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${
+            className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold ${
               question.is_open
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
+                ? "border-[#3f8f68] bg-[#102f23] text-[#78d5a6]"
+                : "border-[#8f3030] bg-[#3a1618] text-[#f2a6a6]"
             }`}
           >
-            {question.is_open ? "🟢 Aberta" : "🔴 Fechada"}
+            {question.is_open
+              ? "🟢 Aberta"
+              : "🔴 Fechada"}
           </span>
 
-          <h3 className="mt-3 text-lg font-semibold">
+          <h3 className="mt-3 text-lg font-semibold leading-6 text-[#f5f0d8]">
             {question.question}
           </h3>
 
-          <p className="text-slate-500 mt-2">
+          <p className="mt-2 text-sm text-[#92998e]">
             {question.day} • {question.points} pts
           </p>
 
@@ -40,13 +42,15 @@ export default function QuestionCard({
 
         <button
           onClick={onToggle}
-          className={`rounded-xl px-4 py-2 text-white font-semibold ${
+          className={
             question.is_open
-              ? "bg-red-600 hover:bg-red-500"
-              : "bg-green-600 hover:bg-green-500"
-          }`}
+              ? "jpp-button-danger shrink-0 px-4 py-2 text-sm"
+              : "shrink-0 rounded-full border border-[#c5a94c] bg-gradient-to-b from-[#f5d978] to-[#d6a92f] px-5 py-2 font-semibold text-[#092016] transition hover:brightness-110"
+          }
         >
-          {question.is_open ? "Fechar" : "Abrir"}
+          {question.is_open
+            ? "Fechar"
+            : "Abrir"}
         </button>
 
       </div>

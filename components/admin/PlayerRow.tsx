@@ -15,32 +15,32 @@ export default function PlayerRow({
   onDelete,
 }: Props) {
   return (
-    <div className="bg-white rounded-xl shadow p-4 flex justify-between items-center">
+    <div className="jpp-card-premium flex items-center justify-between p-4">
 
-      <div>
-
-        <div className="font-semibold text-lg">
+      <div className="min-w-0">
+        <div className="truncate text-lg font-semibold text-[#f5f0d8]">
           {player.full_name}
         </div>
 
-        <div className="text-sm text-slate-500 mt-1">
+        <div className="mt-1 text-sm text-[#92998e]">
           {player.totalBets} apostas • {player.totalPoints} pontos
         </div>
-
       </div>
 
-      <div className="flex gap-2">
+      <div className="ml-4 flex shrink-0 gap-2">
 
         <button
           onClick={onEdit}
-          className="p-2 rounded-lg bg-blue-100 hover:bg-blue-200"
+          aria-label={`Editar ${player.full_name}`}
+          className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#887437] bg-[#123526] text-[#e5bd4f] transition hover:bg-[#194633]"
         >
           <Pencil size={18} />
         </button>
 
         <button
           onClick={onDelete}
-          className="p-2 rounded-lg bg-red-100 hover:bg-red-200"
+          aria-label={`Eliminar ${player.full_name}`}
+          className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#8f3030] bg-[#3a1618] text-[#f2a6a6] transition hover:bg-[#551c20]"
         >
           <Trash2 size={18} />
         </button>

@@ -8,21 +8,24 @@ import { usePlayer } from "@/hooks/usePlayer";
 
 function Section({
   title,
+  icon,
   children,
 }: {
   title: string;
+  icon: string;
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6">
-      <h2 className="text-xl font-bold mb-4 text-blue-900">
-        {title}
+    <section className="jpp-section">
+      <h2 className="jpp-section-title">
+        <span>{icon}</span>
+        <span>{title}</span>
       </h2>
 
-      <div className="space-y-3 text-slate-700 leading-7">
+      <div className="jpp-section-content">
         {children}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -36,211 +39,192 @@ export default function ComoJogarPage() {
       <Header playerName={playerName} />
 
       <PageContainer>
+        <div className="jpp-page-header">
+          <div className="jpp-eyebrow">
+            Manual da competição
+          </div>
 
-        <h1 className="text-3xl font-bold mb-6">
-          📖 Como Jogar
-        </h1>
+          <h1 className="jpp-page-title">
+            📖 Como Jogar
+          </h1>
 
-        <div className="space-y-6">
+          <p className="jpp-page-subtitle">
+            Tudo o que precisas de saber antes de fazeres
+            a tua próxima aposta.
+          </p>
+        </div>
 
-          <Section title="🎯 Objetivo">
+        <div className="space-y-4">
 
+          <Section title="Objetivo" icon="🎯">
             <p>
-              A JPP League é um jogo de previsões criado para tornar a viagem
-              mais divertida e competitiva.
+              A JPP League é um jogo de previsões criado
+              para tornar a viagem mais divertida e competitiva.
             </p>
 
-            <p>
-              Em cada pergunta deverás prever um acontecimento da viagem.
+            <p className="mt-3">
+              Em cada pergunta deverás prever um acontecimento
+              da viagem.
             </p>
 
-            <p>
-              Quanto mais próxima estiver a tua resposta da resposta correta,
-              mais pontos recebes.
+            <p className="mt-3">
+              Quanto mais próxima estiver a tua resposta
+              da resposta correta, mais pontos recebes.
             </p>
-
           </Section>
 
-          <Section title="📝 Como Apostar">
-
-            <ol className="list-decimal ml-5 space-y-2">
-
+          <Section title="Como Apostar" icon="📝">
+            <ol className="ml-5 list-decimal space-y-2">
               <li>Entra na página <strong>Apostas</strong>.</li>
-
               <li>Escolhe o dia correspondente.</li>
-
               <li>Responde às perguntas.</li>
-
               <li>A resposta é guardada automaticamente.</li>
-
               <li>Podes alterá-la até ao fecho da pergunta.</li>
-
             </ol>
-
           </Section>
 
-          <Section title="⭐ Dificuldade">
+          <Section title="Dificuldade" icon="⭐">
+            <p>
+              As perguntas têm um nível de dificuldade
+              entre 1 e 5 estrelas.
+            </p>
 
-            <p>As perguntas têm um nível de dificuldade entre 1 e 5 estrelas.</p>
-
-            <div className="space-y-1">
-
-              <p>⭐ Muito Fácil</p>
-
-              <p>⭐⭐ Fácil</p>
-
-              <p>⭐⭐⭐ Média</p>
-
-              <p>⭐⭐⭐⭐ Difícil</p>
-
-              <p>⭐⭐⭐⭐⭐ Muito Difícil</p>
-
+            <div className="mt-4 space-y-2">
+              <div>⭐ <span className="text-[#d4d5c7]">Muito Fácil</span></div>
+              <div>⭐⭐ <span className="text-[#d4d5c7]">Fácil</span></div>
+              <div>⭐⭐⭐ <span className="text-[#d4d5c7]">Média</span></div>
+              <div>⭐⭐⭐⭐ <span className="text-[#d4d5c7]">Difícil</span></div>
+              <div>⭐⭐⭐⭐⭐ <span className="text-[#d4d5c7]">Muito Difícil</span></div>
             </div>
-
           </Section>
 
-          <Section title="🏆 Sistema de Pontuação">
-
+          <Section title="Sistema de Pontuação" icon="🏆">
             <p>
               Cada pergunta tem um número máximo de pontos.
-            </p>
-
-            <p>
               A pontuação depende da precisão da tua resposta.
             </p>
 
-            <div className="overflow-x-auto">
-
-              <table className="w-full mt-3 border">
-
-                <thead className="bg-slate-100">
-
+            <div className="mt-4 overflow-x-auto">
+              <table className="jpp-table">
+                <thead>
                   <tr>
-
-                    <th className="p-3 text-left">
-                      Precisão
-                    </th>
-
-                    <th className="p-3 text-left">
-                      Pontos
-                    </th>
-
+                    <th>Precisão</th>
+                    <th>Pontos</th>
                   </tr>
-
                 </thead>
 
                 <tbody>
-
-                  <tr className="border-t">
-                    <td className="p-3">100%</td>
-                    <td className="p-3">100% dos pontos</td>
+                  <tr>
+                    <td>100%</td>
+                    <td>100% dos pontos</td>
                   </tr>
 
-                  <tr className="border-t">
-                    <td className="p-3">90%</td>
-                    <td className="p-3">90%</td>
+                  <tr>
+                    <td>90%</td>
+                    <td>90%</td>
                   </tr>
 
-                  <tr className="border-t">
-                    <td className="p-3">80%</td>
-                    <td className="p-3">80%</td>
+                  <tr>
+                    <td>80%</td>
+                    <td>80%</td>
                   </tr>
 
-                  <tr className="border-t">
-                    <td className="p-3">70%</td>
-                    <td className="p-3">70%</td>
+                  <tr>
+                    <td>70%</td>
+                    <td>70%</td>
                   </tr>
 
-                  <tr className="border-t">
-                    <td className="p-3">60%</td>
-                    <td className="p-3">60%</td>
+                  <tr>
+                    <td>60%</td>
+                    <td>60%</td>
                   </tr>
 
-                  <tr className="border-t">
-                    <td className="p-3">50%</td>
-                    <td className="p-3">50%</td>
+                  <tr>
+                    <td>50%</td>
+                    <td>50%</td>
                   </tr>
 
-                  <tr className="border-t">
-                    <td className="p-3">&lt;50%</td>
-                    <td className="p-3">0 pontos</td>
+                  <tr>
+                    <td>&lt;50%</td>
+                    <td>0 pontos</td>
                   </tr>
-
                 </tbody>
-
               </table>
-
             </div>
-
           </Section>
 
-          <Section title="⏰ Prazos">
-
+          <Section title="Prazos" icon="⏰">
             <p>
               Todas as perguntas possuem uma data e hora limite.
             </p>
 
-            <p>
+            <p className="mt-3">
               Depois desse momento deixam de poder ser alteradas.
             </p>
-
           </Section>
 
-          <Section title="🏆 Ranking">
-
+          <Section title="Ranking" icon="🏆">
             <p>
-              O ranking é atualizado sempre que os resultados oficiais são
-              introduzidos pelo organizador.
+              O ranking é atualizado sempre que os resultados
+              oficiais são introduzidos pelo organizador.
             </p>
 
-            <p>
-              O vencedor será o jogador com mais pontos no final da viagem.
+            <p className="mt-3">
+              O vencedor será o jogador com mais pontos
+              no final da viagem.
             </p>
-
           </Section>
 
-          <Section title="💡 Dicas">
-
-            <ul className="list-disc ml-5 space-y-2">
-
+          <Section title="Dicas" icon="💡">
+            <ul className="ml-5 list-disc space-y-2">
               <li>Não deixes perguntas sem resposta.</li>
-
               <li>Revê sempre as tuas apostas.</li>
-
-              <li>As perguntas mais difíceis costumam valer mais pontos.</li>
-
-              <li>Pequenas diferenças podem decidir o vencedor.</li>
-
+              <li>
+                As perguntas mais difíceis costumam valer
+                mais pontos.
+              </li>
+              <li>
+                Pequenas diferenças podem decidir o vencedor.
+              </li>
             </ul>
-
           </Section>
 
-          <Section title="❓ Perguntas Frequentes">
+          <Section title="Perguntas Frequentes" icon="❓">
+            <div>
+              <p>
+                <strong>Posso alterar uma aposta?</strong>
+              </p>
 
-            <p><strong>Posso alterar uma aposta?</strong></p>
+              <p className="mt-1">
+                Sim, enquanto a pergunta estiver aberta.
+              </p>
 
-            <p>Sim, enquanto a pergunta estiver aberta.</p>
+              <div className="jpp-divider" />
 
-            <hr />
+              <p>
+                <strong>O que acontece se não responder?</strong>
+              </p>
 
-            <p><strong>O que acontece se não responder?</strong></p>
+              <p className="mt-1">
+                Recebes 0 pontos nessa pergunta.
+              </p>
 
-            <p>Recebes 0 pontos nessa pergunta.</p>
+              <div className="jpp-divider" />
 
-            <hr />
+              <p>
+                <strong>Quando é atualizado o ranking?</strong>
+              </p>
 
-            <p><strong>Quando é atualizado o ranking?</strong></p>
-
-            <p>Sempre que forem introduzidos novos resultados.</p>
-
+              <p className="mt-1">
+                Sempre que forem introduzidos novos resultados.
+              </p>
+            </div>
           </Section>
 
         </div>
-
       </PageContainer>
 
       <BottomNavigation />
-
     </>
   );
 }

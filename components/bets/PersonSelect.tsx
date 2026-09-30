@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Player } from "@/types/player";
@@ -20,7 +21,7 @@ export default function PersonSelect({
       value={value}
       disabled={disabled}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full rounded-xl border border-slate-300 p-3 disabled:bg-slate-100 disabled:text-slate-500"
+      className="jpp-select disabled:cursor-not-allowed disabled:opacity-50"
     >
       <option value="">
         Escolher jogador...

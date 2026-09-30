@@ -12,9 +12,7 @@ import PageContainer from "@/components/layout/PageContainer";
 import StatCard from "@/components/admin/StatCard";
 
 import { usePlayer } from "@/hooks/usePlayer";
-import { getAdminStats, AdminStats } from "@/services/admin";
-
-import { resetGame } from "@/services/admin";
+import { getAdminStats, AdminStats, resetGame } from "@/services/admin";
 
 export default function AdminPage() {
   const { playerId, playerName } = usePlayer();
@@ -43,112 +41,186 @@ export default function AdminPage() {
     }
   }
 
+  async function handleReset() {
+    const first = confirm(
+      "⚠️ Isto vai eliminar TODAS as apostas, resultados e pontuações.\n\nContinuar?"
+    );
+
+    if (!first) return;
+
+    const second = confirm(
+      "Última confirmação!\n\nEsta ação NÃO pode ser anulada."
+    );
+
+    if (!second) return;
+
+    try {
+      await resetGame();
+
+      alert("Jogo reiniciado com sucesso!");
+
+      loadStats();
+    } catch (error) {
+      console.error(error);
+
+      alert("Erro ao reiniciar.");
+    }
+  }
+
   if (!playerId) {
     return null;
   }
-
-  async function handleReset() {
-
-  const first = confirm(
-    "⚠️ Isto vai eliminar TODAS as apostas, resultados e pontuações.\n\nContinuar?"
-  );
-
-  if (!first) return;
-
-  const second = confirm(
-    "Última confirmação!\n\nEsta ação NÃO pode ser anulada."
-  );
-
-  if (!second) return;
-
-  try {
-
-    await resetGame();
-
-    alert("Jogo reiniciado com sucesso!");
-
-    loadStats();
-
-  } catch (error) {
-
-    console.error(error);
-
-    alert("Erro ao reiniciar.");
-
-  }
-
-}
 
   return (
     <AdminGuard>
       <Header playerName={playerName} />
 
       <PageContainer>
-        <h1 className="text-3xl font-bold mb-6">
-          🛠 Administração
-        </h1>
+        <div className="jpp-page-header">
+          <div className="jpp-eyebrow">
+            Área reservada
+          </div>
+
+          <h1 className="jpp-page-title">
+            🛠️ Administração
+          </h1>
+
+          <p className="jpp-page-subtitle">
+            Gestão da competição JPP League.
+          </p>
+        </div>
 
         {loading ? (
-          <p>A carregar...</p>
+          <div className="jpp-card-premium p-8 text-center">
+            <p className="jpp-muted">
+              A carregar dados da competição...
+            </p>
+          </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-2 gap-3">
               <StatCard
-                title="Jogadores"
+                title="👥 Jogadores"
                 value={stats.players}
               />
 
               <StatCard
-                title="Perguntas"
+                title="📋 Perguntas"
                 value={stats.questions}
               />
 
               <StatCard
-                title="Apostas"
+                title="🎯 Apostas"
                 value={stats.bets}
               />
 
               <StatCard
-                title="Resultados"
+                title="🏆 Resultados"
                 value={stats.results}
               />
             </div>
 
-            <div className="space-y-4">
+            <div className="mt-6 space-y-3">
               <Link
                 href="/admin/perguntas"
-                className="block rounded-xl bg-blue-900 !text-white p-5 text-center font-semibold hover:bg-blue-800 transition" 
+                className="jpp-menu-item"
               >
-                📋 Gerir Perguntas
+                <div className="flex items-center gap-4">
+                  <span className="text-2xl">📋</span>
+
+                  <div className="flex-1">
+                    <div className="jpp-menu-item-title">
+                      Gerir Perguntas
+                    </div>
+
+                    <div className="jpp-menu-item-description">
+                      Abrir e fechar perguntas.
+                    </div>
+                  </div>
+
+                  <span className="jpp-menu-arrow">→</span>
+                </div>
               </Link>
 
               <Link
                 href="/admin/resultados"
-                className="block rounded-xl bg-blue-900 !text-white p-5 text-center font-semibold hover:bg-blue-800 transition" 
+                className="jpp-menu-item"
               >
-                🎯 Introduzir Resultados
+                <div className="flex items-center gap-4">
+                  <span className="text-2xl">🎯</span>
+
+                  <div className="flex-1">
+                    <div className="jpp-menu-item-title">
+                      Introduzir Resultados
+                    </div>
+
+                    <div className="jpp-menu-item-description">
+                      Registar os resultados oficiais.
+                    </div>
+                  </div>
+
+                  <span className="jpp-menu-arrow">→</span>
+                </div>
               </Link>
 
               <Link
                 href="/admin/pontuacoes"
-                className="block rounded-xl bg-blue-900 !text-white p-5 text-center font-semibold hover:bg-blue-800 transition" 
+                className="jpp-menu-item"
               >
-                🧮 Calcular Pontuações
+                <div className="flex items-center gap-4">
+                  <span className="text-2xl">🧮</span>
+
+                  <div className="flex-1">
+                    <div className="jpp-menu-item-title">
+                      Calcular Pontuações
+                    </div>
+
+                    <div className="jpp-menu-item-description">
+                      Processar as pontuações da competição.
+                    </div>
+                  </div>
+
+                  <span className="jpp-menu-arrow">→</span>
+                </div>
               </Link>
 
               <Link
                 href="/admin/jogadores"
-                className="block rounded-xl bg-blue-900 !text-white p-5 text-center font-semibold hover:bg-blue-800 transition"              >
-                👥 Jogadores
-              </Link>
+                className="jpp-menu-item"
+              >
+                <div className="flex items-center gap-4">
+                  <span className="text-2xl">👥</span>
 
-              <button
-                onClick={handleReset}
-                className="w-full rounded-xl bg-red-700 !text-white p-5 font-semibold shadow-md hover:bg-red-600 transition"
-                >
-                🗑️ Reiniciar Jogo
-              </button>
+                  <div className="flex-1">
+                    <div className="jpp-menu-item-title">
+                      Jogadores
+                    </div>
+
+                    <div className="jpp-menu-item-description">
+                      Adicionar, editar ou remover jogadores.
+                    </div>
+                  </div>
+
+                  <span className="jpp-menu-arrow">→</span>
+                </div>
+              </Link>
             </div>
+
+            <div className="mt-7 jpp-admin-warning">
+              <strong>Zona de perigo</strong>
+
+              <p className="mt-1">
+                Reiniciar o jogo elimina apostas,
+                resultados e pontuações.
+              </p>
+            </div>
+
+            <button
+              onClick={handleReset}
+              className="jpp-button-danger mt-3 w-full"
+            >
+              🗑️ Reiniciar Jogo
+            </button>
           </>
         )}
       </PageContainer>

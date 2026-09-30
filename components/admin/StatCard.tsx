@@ -8,12 +8,12 @@ export default function StatCard({
   value,
 }: Props) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="text-sm text-slate-500">
+    <div className="jpp-stat-card">
+      <p className="jpp-stat-label">
         {title}
       </p>
 
-      <p className="mt-2 text-3xl font-bold text-blue-900">
+      <p className="mt-2 text-3xl font-black text-[#e5bd4f]">
         {value}
       </p>
     </div>

@@ -34,13 +34,12 @@ export default function PerfilPage() {
   }
 
   function logout() {
-    if (
-      !confirm("Pretende terminar a sessão?")
-    ) {
+    if (!confirm("Pretende terminar a sessão?")) {
       return;
     }
 
     localStorage.removeItem("playerId");
+    localStorage.removeItem("playerName");
 
     router.push("/login");
   }
@@ -53,7 +52,15 @@ export default function PerfilPage() {
         <Header playerName={playerName} />
 
         <PageContainer>
-          <p>A carregar...</p>
+          <div className="jpp-card-premium p-8 text-center">
+            <div className="jpp-eyebrow justify-center">
+              Perfil
+            </div>
+
+            <p className="jpp-muted">
+              A carregar os teus dados...
+            </p>
+          </div>
         </PageContainer>
 
         <BottomNavigation />
@@ -67,85 +74,143 @@ export default function PerfilPage() {
 
       <PageContainer>
 
-        <h1 className="text-3xl font-bold mb-6">
-          👤 Perfil
-        </h1>
+        {/* Cabeçalho */}
 
-        <div className="bg-white rounded-xl shadow p-6 mb-6">
+        <div className="jpp-page-header">
+          <div className="jpp-eyebrow">
+            Jogador
+          </div>
 
-          <div className="text-center">
+          <h1 className="jpp-page-title">
+            👤 Perfil
+          </h1>
 
-            <h2 className="text-2xl font-bold">
+          <p className="jpp-page-subtitle">
+            A tua ficha na JPP League.
+          </p>
+        </div>
+
+        {/* Identidade */}
+
+        <div className="jpp-card-premium p-6 text-center">
+
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-[#c5a94c] bg-[#061f17] text-3xl">
+            👤
+          </div>
+
+          <div className="mt-4">
+            <div className="jpp-eyebrow justify-center">
+              Jogador
+            </div>
+
+            <h2 className="text-2xl font-extrabold text-[#f5f0d8]">
               {profile.full_name}
             </h2>
+          </div>
 
+          <div className="jpp-divider" />
+
+          <div className="flex items-center justify-center gap-2">
+            <span className="jpp-badge">
+              JPP League
+            </span>
+
+            <span className="jpp-badge">
+              The Last Dance
+            </span>
           </div>
 
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        {/* Estatísticas */}
 
-          <div className="bg-white rounded-xl shadow p-5 text-center">
+        <div className="mt-5">
 
-            <div className="text-sm text-slate-500 mb-2">
-              🏆 Ranking
+          <div className="mb-3 jpp-eyebrow">
+            Estatísticas
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+
+            <div className="jpp-stat-card text-center">
+
+              <div className="jpp-stat-label">
+                🏆 Ranking
+              </div>
+
+              <div className="jpp-stat-value">
+                {profile.position}º
+              </div>
+
+              <div className="mt-1 text-xs text-[#92998e]">
+                de {profile.totalPlayers}
+              </div>
+
             </div>
 
-            <div className="text-2xl font-bold">
-              {profile.position}º
+            <div className="jpp-stat-card text-center">
+
+              <div className="jpp-stat-label">
+                ⭐ Pontos
+              </div>
+
+              <div className="jpp-stat-value">
+                {profile.points.toFixed(2)}
+              </div>
+
             </div>
 
-            <div className="text-sm text-slate-500">
-              de {profile.totalPlayers}
+            <div className="jpp-stat-card text-center">
+
+              <div className="jpp-stat-label">
+                🎯 Apostas
+              </div>
+
+              <div className="jpp-stat-value">
+                {profile.totalBets}
+              </div>
+
+              <div className="mt-1 text-xs text-[#92998e]">
+                de {profile.totalQuestions}
+              </div>
+
+            </div>
+
+            <div className="jpp-stat-card text-center">
+
+              <div className="jpp-stat-label">
+                🎯 Precisão
+              </div>
+
+              <div className="jpp-stat-value">
+                {profile.averageAccuracy.toFixed(2)}%
+              </div>
+
             </div>
 
           </div>
+        </div>
 
-          <div className="bg-white rounded-xl shadow p-5 text-center">
+        {/* Informação */}
 
-            <div className="text-sm text-slate-500 mb-2">
-              ⭐ Pontos
-            </div>
+        <div className="jpp-card-premium mt-5 p-5">
 
-            <div className="text-2xl font-bold">
-              {profile.points.toFixed(2)}
-            </div>
-
+          <div className="jpp-eyebrow">
+            Estado
           </div>
 
-          <div className="bg-white rounded-xl shadow p-5 text-center">
-
-            <div className="text-sm text-slate-500 mb-2">
-              🎯 Apostas
-            </div>
-
-            <div className="text-2xl font-bold">
-              {profile.totalBets}
-            </div>
-
-            <div className="text-sm text-slate-500">
-              / {profile.totalQuestions}
-            </div>
-
-          </div>
-
-          <div className="bg-white rounded-xl shadow p-5 text-center">
-
-            <div className="text-sm text-slate-500 mb-2">
-              🎯 Precisão Média
-            </div>
-
-            <div className="text-2xl font-bold">
-              {profile.averageAccuracy.toFixed(2)}%
-            </div>
-
-          </div>
+          <p className="text-sm leading-6 text-[#d0d0c0]">
+            Continua a fazer as tuas apostas e tenta
+            melhorar a tua posição no ranking.
+          </p>
 
         </div>
+
+        {/* Logout */}
 
         <button
           onClick={logout}
-          className="mt-8 w-full rounded-xl bg-red-700 !text-white p-4 font-semibold shadow-md hover:bg-red-600 transition"
+          className="jpp-button-danger mt-7 w-full"
         >
           🚪 Terminar Sessão
         </button>
@@ -153,7 +218,6 @@ export default function PerfilPage() {
       </PageContainer>
 
       <BottomNavigation />
-
     </>
   );
 }

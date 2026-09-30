@@ -18,21 +18,34 @@ export default function ResultCard({
     useState(initial);
 
   return (
-    <div className="rounded-xl border bg-white p-5 shadow-sm">
+    <div className="jpp-card-premium p-5">
 
-      <h3 className="font-semibold text-lg mb-4">
+      <div className="jpp-eyebrow">
+        Resultado
+      </div>
+
+      <h3 className="mt-2 text-lg font-semibold leading-6 text-[#f5f0d8]">
         {question.question}
       </h3>
 
-      <input
-        className="w-full rounded-xl border p-3"
-        value={answer}
-        onChange={(e) => setAnswer(e.target.value)}
-      />
+      <div className="mt-4">
+        <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#b8b9a9]">
+          Resposta correta
+        </label>
+
+        <input
+          className="jpp-input"
+          value={answer}
+          onChange={(e) =>
+            setAnswer(e.target.value)
+          }
+          placeholder="Introduz a resposta correta"
+        />
+      </div>
 
       <button
         onClick={() => onSave(answer)}
-        className="mt-4 rounded-xl bg-blue-900 px-5 py-3 text-white font-semibold hover:bg-blue-800"
+        className="jpp-button mt-4"
       >
         💾 Guardar
       </button>

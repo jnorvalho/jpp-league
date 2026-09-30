@@ -1,3 +1,4 @@
+
 "use client";
 
 type Props = {
@@ -18,7 +19,8 @@ export default function ValueInput({
       value={value}
       disabled={disabled}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full rounded-xl border border-slate-300 p-3 disabled:bg-slate-100 disabled:text-slate-500 focus:border-blue-500 focus:outline-none"
+      placeholder="Introduzir valor..."
+      className="jpp-input disabled:cursor-not-allowed disabled:opacity-50"
     />
   );
 }
