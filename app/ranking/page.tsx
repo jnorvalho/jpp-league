@@ -143,7 +143,7 @@ export default function RankingPage() {
                 key={player.id}
                 position={index + 1}
                 name={player.full_name}
-                points={player.total_points}
+                points={Math.round(Number(player.total_points) || 0)}
                 isCurrentPlayer={player.id === playerId}
               />
             ))}

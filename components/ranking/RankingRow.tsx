@@ -102,7 +102,7 @@ export default function RankingRow({
               : "text-[#f5f0d8]"
           }`}
         >
-          {Number(points ?? 0).toFixed(2)}
+          {Number(points ?? 0).toFixed(0)}
         </div>
 
         <div className="text-xs text-[#b8b9a9]">

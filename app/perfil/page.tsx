@@ -152,7 +152,7 @@ export default function PerfilPage() {
               </div>
 
               <div className="jpp-stat-value">
-                {profile.points.toFixed(2)}
+                {Math.round(profile.points)}
               </div>
 
             </div>
@@ -180,7 +180,7 @@ export default function PerfilPage() {
               </div>
 
               <div className="jpp-stat-value">
-                {profile.averageAccuracy.toFixed(2)}%
+                {profile.averageAccuracy.toFixed(0)}%
               </div>
 
             </div>
