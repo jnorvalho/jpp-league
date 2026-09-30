@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -12,7 +13,11 @@ import PageContainer from "@/components/layout/PageContainer";
 import StatCard from "@/components/admin/StatCard";
 
 import { usePlayer } from "@/hooks/usePlayer";
-import { getAdminStats, AdminStats, resetGame } from "@/services/admin";
+import {
+  getAdminStats,
+  AdminStats,
+  resetGame,
+} from "@/services/admin";
 
 export default function AdminPage() {
   const { playerId, playerName } = usePlayer();
@@ -122,44 +127,29 @@ export default function AdminPage() {
 
             <div className="mt-6 space-y-3">
               <Link
-                href="/admin/perguntas"
-                className="jpp-menu-item"
-              >
-                <div className="flex items-center gap-4">
-                  <span className="text-2xl">📋</span>
-
-                  <div className="flex-1">
-                    <div className="jpp-menu-item-title">
-                      Gerir Perguntas
-                    </div>
-
-                    <div className="jpp-menu-item-description">
-                      Abrir e fechar perguntas.
-                    </div>
-                  </div>
-
-                  <span className="jpp-menu-arrow">→</span>
-                </div>
-              </Link>
-
-              <Link
                 href="/admin/resultados"
                 className="jpp-menu-item"
               >
                 <div className="flex items-center gap-4">
-                  <span className="text-2xl">🎯</span>
+                  <span className="text-2xl">
+                    📋
+                  </span>
 
                   <div className="flex-1">
                     <div className="jpp-menu-item-title">
-                      Introduzir Resultados
+                      Gerir Perguntas e Resultados
                     </div>
 
                     <div className="jpp-menu-item-description">
-                      Registar os resultados oficiais.
+                      Abrir e fechar apostas, registar
+                      resultados oficiais e atualizar
+                      as pontuações.
                     </div>
                   </div>
 
-                  <span className="jpp-menu-arrow">→</span>
+                  <span className="jpp-menu-arrow">
+                    →
+                  </span>
                 </div>
               </Link>
 
@@ -168,7 +158,9 @@ export default function AdminPage() {
                 className="jpp-menu-item"
               >
                 <div className="flex items-center gap-4">
-                  <span className="text-2xl">🧮</span>
+                  <span className="text-2xl">
+                    🧮
+                  </span>
 
                   <div className="flex-1">
                     <div className="jpp-menu-item-title">
@@ -176,11 +168,14 @@ export default function AdminPage() {
                     </div>
 
                     <div className="jpp-menu-item-description">
-                      Processar as pontuações da competição.
+                      Recalcular manualmente as pontuações
+                      da competição, se necessário.
                     </div>
                   </div>
 
-                  <span className="jpp-menu-arrow">→</span>
+                  <span className="jpp-menu-arrow">
+                    →
+                  </span>
                 </div>
               </Link>
 
@@ -189,7 +184,9 @@ export default function AdminPage() {
                 className="jpp-menu-item"
               >
                 <div className="flex items-center gap-4">
-                  <span className="text-2xl">👥</span>
+                  <span className="text-2xl">
+                    👥
+                  </span>
 
                   <div className="flex-1">
                     <div className="jpp-menu-item-title">
@@ -201,7 +198,9 @@ export default function AdminPage() {
                     </div>
                   </div>
 
-                  <span className="jpp-menu-arrow">→</span>
+                  <span className="jpp-menu-arrow">
+                    →
+                  </span>
                 </div>
               </Link>
             </div>
@@ -216,6 +215,7 @@ export default function AdminPage() {
             </div>
 
             <button
+              type="button"
               onClick={handleReset}
               className="jpp-button-danger mt-3 w-full"
             >

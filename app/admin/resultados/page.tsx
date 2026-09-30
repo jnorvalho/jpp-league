@@ -1,8 +1,8 @@
 "use client";
 
 import AdminGuard from "@/components/admin/AdminGuard";
-
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import Header from "@/components/layout/Header";
 import BottomNavigation from "@/components/layout/BottomNavigation";
@@ -10,96 +10,204 @@ import PageContainer from "@/components/layout/PageContainer";
 
 import { usePlayer } from "@/hooks/usePlayer";
 
+import QuestionCard from "@/components/admin/QuestionCard";
 import ResultCard from "@/components/admin/ResultCard";
 
 import {
-  getResults,
-  saveResult,
+getResults,
+saveResult,
+updateQuestionStatus,
 } from "@/services/admin";
 
+import { calculateScores } from "@/services/scoring";
+
 export default function ResultadosAdminPage() {
-  const { playerId, playerName } =
-    usePlayer();
+const { playerId, playerName } = usePlayer();
+const router = useRouter();
 
-  const [questions, setQuestions] =
-    useState<any[]>([]);
+const [questions, setQuestions] = useState<any[]>([]);
+const [loading, setLoading] = useState(true);
+const [loadError, setLoadError] = useState(false);
 
-  useEffect(() => {
-    load();
-  }, []);
+useEffect(() => {
+loadQuestions();
+}, []);
 
-  async function load() {
-    const data = await getResults();
-    setQuestions(data);
-  }
+async function loadQuestions() {
+try {
+setLoadError(false);
 
-  async function save(
-    questionId: number,
-    answer: string
-  ) {
-    await saveResult(
-      questionId,
-      answer
-    );
+  const data = await getResults();
 
-    await load();
-  }
+  const normalized = data.map((question: any) => {
+    const result = Array.isArray(question.results)
+      ? question.results[0]
+      : question.results;
 
-  if (!playerId) return null;
+    return {
+      ...question,
+      savedAnswer:
+        result?.correct_answer == null
+          ? ""
+          : String(result.correct_answer),
+    };
+  });
 
-  const completed = questions.filter(
-    (question) =>
-      question.result !== null &&
-      question.result !== undefined &&
-      question.result !== ""
-  ).length;
+  setQuestions(normalized);
+} catch (error) {
+  console.error("Erro ao carregar perguntas:", error);
+  setLoadError(true);
+} finally {
+  setLoading(false);
+}
 
-  return (
-    <AdminGuard>
-      <Header playerName={playerName} />
+}
 
-      <PageContainer>
-        <div className="jpp-page-header">
-          <div className="jpp-eyebrow">
-            Administração
-          </div>
+async function toggleQuestion(question: any) {
+try {
+await updateQuestionStatus(
+question.id,
+!question.is_open
+);
 
-          <h1 className="jpp-page-title">
-            🎯 Resultados
-          </h1>
+  await loadQuestions();
+} catch (error) {
+  console.error(
+    "Erro ao alterar estado da pergunta:",
+    error
+  );
 
-          <p className="jpp-page-subtitle">
-            Introduz os resultados oficiais das perguntas.
-          </p>
-        </div>
+  alert(
+    "Não foi possível alterar o estado da pergunta."
+  );
+}
 
-        <div className="mb-5 flex items-center justify-between">
-          <span className="jpp-badge">
-            {questions.length} perguntas
-          </span>
+}
 
-          <span className="jpp-badge jpp-badge-success">
-            {completed} preenchidos
-          </span>
-        </div>
+async function save(
+questionId: number,
+answer: string
+) {
+await saveResult(questionId, answer);
+await calculateScores();
+await loadQuestions();
+}
 
-        <div className="space-y-4">
-          {questions.map((question) => (
-            <ResultCard
-              key={question.id}
+if (!playerId) return null;
+
+const openQuestions = questions.filter(
+(question) => question.is_open
+).length;
+
+const completed = questions.filter(
+(question) =>
+String(question.savedAnswer ?? "").trim() !== ""
+).length;
+
+return (
+<AdminGuard>
+<Header playerName={playerName} />
+
+  <PageContainer>
+    <button
+      type="button"
+      onClick={() => router.push("/admin")}
+      className="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-[#c5a94c] transition-opacity hover:opacity-80"
+    >
+      ← Voltar ao Admin
+    </button>
+
+    <div className="jpp-page-header">
+      <div className="jpp-eyebrow">
+        Administração
+      </div>
+
+      <h1 className="jpp-page-title">
+        📋 Gerir Perguntas e Resultados
+      </h1>
+
+      <p className="jpp-page-subtitle">
+        Controla a abertura das apostas e regista
+        os resultados oficiais. As pontuações são
+        recalculadas automaticamente ao guardar.
+      </p>
+    </div>
+
+    <div className="mb-5 grid grid-cols-3 gap-2">
+      <div className="jpp-badge text-center">
+        {questions.length} perguntas
+      </div>
+
+      <div
+        className={
+          openQuestions > 0
+            ? "jpp-badge jpp-badge-success text-center"
+            : "jpp-badge text-center"
+        }
+      >
+        {openQuestions} abertas
+      </div>
+
+      <div className="jpp-badge jpp-badge-success text-center">
+        {completed} resultados
+      </div>
+    </div>
+
+    {loading && (
+      <div className="jpp-card-premium p-5">
+        <p className="jpp-muted">
+          ⏳ A carregar perguntas e resultados...
+        </p>
+      </div>
+    )}
+
+    {!loading && loadError && (
+      <div className="jpp-card-premium p-5">
+        <p className="text-sm font-semibold text-[#ff9999]">
+          ❌ Não foi possível carregar os dados.
+        </p>
+
+        <button
+          type="button"
+          onClick={() => {
+            setLoading(true);
+            loadQuestions();
+          }}
+          className="jpp-button mt-4"
+        >
+          Tentar novamente
+        </button>
+      </div>
+    )}
+
+    {!loading && !loadError && (
+      <div className="space-y-6">
+        {questions.map((question) => (
+          <div
+            key={question.id}
+            className="space-y-3"
+          >
+            <QuestionCard
               question={question}
-              onSave={(answer) =>
-                save(
-                  question.id,
-                  answer
-                )
+              onToggle={() =>
+                toggleQuestion(question)
               }
             />
-          ))}
-        </div>
-      </PageContainer>
 
-      <BottomNavigation />
-    </AdminGuard>
-  );
+            <ResultCard
+              question={question}
+              onSave={(answer) =>
+                save(question.id, answer)
+              }
+            />
+          </div>
+        ))}
+      </div>
+    )}
+  </PageContainer>
+
+  <BottomNavigation />
+</AdminGuard>
+
+);
 }
