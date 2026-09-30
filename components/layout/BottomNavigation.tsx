@@ -32,11 +32,6 @@ const items = [
     icon: User,
     label: "Perfil",
   },
-  {
-    href: "/mais",
-    icon: Menu,
-    label: "Mais",
-  },
 ];
 
 const externalItems = [
@@ -53,6 +48,8 @@ export default function BottomNavigation() {
   return (
     <nav className="jpp-bottom-nav fixed bottom-0 left-0 right-0 z-50">
       <div className="mx-auto flex max-w-5xl justify-around px-2 py-3">
+
+        {/* Navegação interna */}
         {items.map((item) => {
           const Icon = item.icon;
           const active = pathname === item.href;
@@ -78,6 +75,7 @@ export default function BottomNavigation() {
           );
         })}
 
+        {/* Prédio do JPP */}
         {externalItems.map((item) => {
           const Icon = item.icon;
 
@@ -99,6 +97,25 @@ export default function BottomNavigation() {
             </a>
           );
         })}
+
+        {/* Mais */}
+        <Link
+          href="/mais"
+          aria-current={pathname === "/mais" ? "page" : undefined}
+          className={`flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-xl py-2 text-xs transition ${
+            pathname === "/mais"
+              ? "font-bold text-[#e5bd4f]"
+              : "text-[#c4c5b9] hover:text-[#f5d978]"
+          }`}
+        >
+          <Menu
+            size={22}
+            strokeWidth={pathname === "/mais" ? 2.5 : 1.8}
+          />
+
+          <span>Mais</span>
+        </Link>
+
       </div>
     </nav>
   );
