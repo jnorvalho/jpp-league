@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -18,12 +17,23 @@ import { usePlayer } from "@/hooks/usePlayer";
 
 export default function BetsPage() {
   const { playerId, playerName } = usePlayer();
+
   const [day, setDay] = useState("sexta");
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
     loadQuestions();
   }, [day]);
+
+  // Atualiza o relógio a cada segundo
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setNow(Date.now());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   async function loadQuestions() {
     const data = await getQuestions(day);
@@ -65,24 +75,39 @@ export default function BetsPage() {
               <p className="text-lg font-semibold text-[#f5f0d8]">
                 Ainda não há perguntas
               </p>
+
               <p className="mt-2 text-sm text-[#b8b9a9]">
                 Não existem perguntas disponíveis para este dia.
               </p>
             </div>
           ) : (
-            questions.map((q) => (
-              <BetCard
-                key={q.id}
-                question={q}
-              >
-                <BetInput
-                  playerId={playerId}
-                  questionId={q.id}
-                  type={q.type}
-                  isOpen={q.is_open}
-                />
-              </BetCard>
-            ))
+            questions.map((q) => {
+              const deadline = q.betting_deadline
+                ? new Date(q.betting_deadline).getTime()
+                : null;
+
+              const deadlinePassed =
+                deadline !== null &&
+                now >= deadline;
+
+              const canBet =
+                Boolean(q.is_open) &&
+                !deadlinePassed;
+
+              return (
+                <BetCard
+                  key={q.id}
+                  question={q}
+                >
+                  <BetInput
+                    playerId={playerId}
+                    questionId={q.id}
+                    type={q.type}
+                    isOpen={canBet}
+                  />
+                </BetCard>
+              );
+            })
           )}
         </div>
       </PageContainer>

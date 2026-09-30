@@ -1,5 +1,7 @@
 import { supabase } from "@/lib/supabase";
 
+import { Question } from "@/types/question";
+
 export type AdminStats = {
   players: number;
   questions: number;
@@ -38,8 +40,6 @@ export async function getAdminStats(): Promise<AdminStats> {
     results: results.count ?? 0,
   };
 }
-
-import { Question } from "@/types/question";
 
 export async function getAllQuestions(): Promise<Question[]> {
   const { data, error } = await supabase
@@ -104,24 +104,57 @@ export async function saveResult(
 }
 
 export async function resetGame() {
+  // 1. Apagar todas as pontuações calculadas
   const { error: scoresError } = await supabase
     .from("scores")
     .delete()
     .gt("id", 0);
 
-  if (scoresError) throw scoresError;
+  if (scoresError) {
+    throw scoresError;
+  }
 
+  // 2. Apagar todos os resultados oficiais
   const { error: resultsError } = await supabase
     .from("results")
     .delete()
     .gt("question_id", 0);
 
-  if (resultsError) throw resultsError;
+  if (resultsError) {
+    throw resultsError;
+  }
 
+  // 3. Apagar todas as apostas
   const { error: betsError } = await supabase
     .from("bets")
     .delete()
     .gt("id", 0);
 
-  if (betsError) throw betsError;
+  if (betsError) {
+    throw betsError;
+  }
+
+  // 4. Repor a pontuação total de todos os jogadores
+  const { error: playersError } = await supabase
+    .from("players")
+    .update({
+      total_points: 0,
+    })
+    .gt("id", 0);
+
+  if (playersError) {
+    throw playersError;
+  }
+
+  // 5. Reabrir todas as perguntas
+  const { error: questionsError } = await supabase
+    .from("questions")
+    .update({
+      is_open: true,
+    })
+    .gt("id", 0);
+
+  if (questionsError) {
+    throw questionsError;
+  }
 }
