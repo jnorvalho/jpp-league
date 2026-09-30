@@ -115,9 +115,6 @@ export default function PerfilPage() {
               JPP League
             </span>
 
-            <span className="jpp-badge">
-              The Last Dance
-            </span>
           </div>
 
         </div>

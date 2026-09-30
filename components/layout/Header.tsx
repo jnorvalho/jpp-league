@@ -27,10 +27,6 @@ export default function Header({
             JPP Casino Royal
           </h1>
 
-          <p className="mt-1 text-sm text-[#c7c3a9]">
-            The Last Dance
-          </p>
-
           {playerName && (
             <div className="mt-2">
               <p className="text-xs text-[#b8b9a9]">

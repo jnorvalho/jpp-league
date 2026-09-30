@@ -37,9 +37,6 @@ export default function SobrePage() {
               Casino Royal
             </h1>
 
-            <p className="mt-2 text-sm text-[#b8b9a9]">
-              The Last Dance
-            </p>
           </div>
 
           <div className="px-6">

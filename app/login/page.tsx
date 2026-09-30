@@ -66,8 +66,8 @@ export default function LoginPage() {
             className="jpp-login-logo"
           />
 
-          <div className="jpp-eyebrow justify-center">
-            JPP League
+          <div className="jpp-login-title">
+            JPP
           </div>
 
           <h1 className="jpp-login-title">
