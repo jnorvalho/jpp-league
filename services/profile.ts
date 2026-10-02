@@ -1,126 +1,102 @@
+
 import { supabase } from "@/lib/supabase";
 
 export type Profile = {
   full_name: string;
-
   position: number;
   totalPlayers: number;
-
   points: number;
-
   totalBets: number;
   totalQuestions: number;
-
   averageAccuracy: number;
 };
 
 export async function getProfile(
   playerId: number
 ): Promise<Profile> {
+  // Jogador atual
+  const { data: player, error: playerError } =
+    await supabase
+      .from("players")
+      .select("id, full_name, total_points")
+      .eq("id", playerId)
+      .single();
 
-  // Jogador
-  const { data: player } = await supabase
-    .from("players")
-    .select("*")
-    .eq("id", playerId)
-    .single();
+  if (playerError) throw playerError;
 
   if (!player) {
     throw new Error("Jogador não encontrado.");
   }
 
-  // Todos os jogadores
-  const { data: players } = await supabase
-    .from("players")
-    .select("*");
+  // Todos os jogadores: mesma fonte e ordenação do Ranking
+  const { data: players, error: playersError } =
+    await supabase
+      .from("players")
+      .select("id, full_name, total_points")
+      .order("total_points", {
+        ascending: false,
+      })
+      .order("full_name");
 
-  // Todas as pontuações
-  const { data: allScores } = await supabase
-    .from("scores")
-    .select("player_id, points");
+  if (playersError) throw playersError;
 
-  // Pontuações do jogador
-  const { data: scores } = await supabase
-    .from("scores")
-    .select("points, accuracy")
-    .eq("player_id", playerId);
+  // Precisão do jogador
+  const { data: scores, error: scoresError } =
+    await supabase
+      .from("scores")
+      .select("accuracy")
+      .eq("player_id", playerId);
 
-  // Nº apostas do jogador
-  const { count: totalBets } = await supabase
-    .from("bets")
-    .select("*", {
-      count: "exact",
-      head: true,
-    })
-    .eq("player_id", playerId);
+  if (scoresError) throw scoresError;
 
-  // Nº perguntas
-  const { count: totalQuestions } = await supabase
-    .from("questions")
-    .select("*", {
-      count: "exact",
-      head: true,
-    });
+  // Nº de apostas do jogador
+  const { count: totalBets, error: betsError } =
+    await supabase
+      .from("bets")
+      .select("*", {
+        count: "exact",
+        head: true,
+      })
+      .eq("player_id", playerId);
 
-  // Pontos do jogador
-  const points =
-    scores?.reduce(
-      (sum, s) => sum + Number(s.points),
-      0
-    ) ?? 0;
+  if (betsError) throw betsError;
+
+  // Nº de perguntas
+  const { count: totalQuestions, error: questionsError } =
+    await supabase
+      .from("questions")
+      .select("*", {
+        count: "exact",
+        head: true,
+      });
+
+  if (questionsError) throw questionsError;
+
+  // Pontos: usar exatamente o total do Ranking
+  const points = Number(player.total_points) || 0;
 
   // Precisão média
   const averageAccuracy =
     scores && scores.length > 0
       ? scores.reduce(
-          (sum, s) => sum + Number(s.accuracy),
+          (sum, s) => sum + Number(s.accuracy || 0),
           0
         ) / scores.length
       : 0;
 
-  // Ranking
-  const ranking =
-    players?.map((player) => {
-
-      const total =
-        allScores
-          ?.filter(
-            (s) => s.player_id === player.id
-          )
-          .reduce(
-            (sum, s) => sum + Number(s.points),
-            0
-          ) ?? 0;
-
-      return {
-        id: player.id,
-        points: total,
-      };
-
-    }) ?? [];
-
-  ranking.sort(
-    (a, b) => b.points - a.points
-  );
-
+  // Posição: mesma ordenação do Ranking
   const position =
-    ranking.findIndex(
+    (players ?? []).findIndex(
       (p) => p.id === playerId
     ) + 1;
 
   return {
     full_name: player.full_name,
-
     position,
-
     totalPlayers: players?.length ?? 0,
-
     points,
-
     totalBets: totalBets ?? 0,
-
     totalQuestions: totalQuestions ?? 0,
-
     averageAccuracy,
   };
 }
